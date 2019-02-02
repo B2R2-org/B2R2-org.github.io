@@ -1,1 +1,242 @@
-B2R2
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+          content="B2R2 is a collection of useful algorithms, functions, and tools for binary analysis, written purely in F#." />
+    <meta name="author" content="Sang Kil Cha" />
+
+    <title>B2R2 - Next-Generation Binary Analysis Framework</title>
+
+    <link href="css/b2r2.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="images/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">B2R2</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#features">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#download">Download</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#github">GitHub</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#faq">FAQ</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header class="masthead">
+      <div class="container h-100">
+        <div class="row h-100">
+          <div class="col-lg-7 my-auto">
+            <div class="header-content mx-auto">
+              <h1 class="mb-5"><span class="text-white">B2R2</span> is a collection of handy libraries and tools <i class="fas fa-tools"></i> for <i><b class="text-white">binary analysis</b></i>, written purely in F#.</h1>
+              <a href="#download" class="btn btn-outline-light btn-outline btn-xl js-scroll-trigger">Download it now!</a>
+            </div>
+          </div>
+          <div class="col-lg-5 my-auto">
+            <div class="device-container">
+              <div class="device-mockup iphone6_plus portrait white">
+                <div class="device">
+                  <div class="screen">
+                    <img src="images/b2r2-3d.png" class="img-fluid" alt="">
+                  </div>
+                  <div class="button">
+                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-heading text-center">
+          <h2>Binary Analysis Made Easy and Fun!</h2>
+          <p class="text-muted">What are the features of B2R2?</p>
+          <hr>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 my-auto">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="feature-item">
+                    <i class="fas text-primary">&lambda;</i>
+                    <h3>Functional First</h3>
+                    <p class="text-muted">Written purely in F#, providing all the syntactic goodies for writing program analyzers, such as <b>pattern matching</b>, <b>algebraic data types</b>, and etc.</p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="feature-item">
+                    <i class="fas fa-fighter-jet text-primary"></i>
+                    <h3>Fast Frontend</h3>
+                    <p class="text-muted">B2R2 naturally supports <b>pure parallelism</b>, thanks to F#, and highly optimized for parsing and lifting optimized IR statements.</p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="feature-item">
+                    <i class="fas fa-unlink text-primary"></i>
+                    <h3>No Dependency</h3>
+                    <p class="text-muted">There is absolutely <b>no dependency hell</b> for B2R2. So it is easy to play with. All you need to do is to install .NET Core SDK, and you are ready to go!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="feature-item">
+                    <i class="fas fa-handshake text-primary"></i>
+                    <h3>OS Independent</h3>
+                    <p class="text-muted">B2R2 runs on <b>any OS</b>, such as Linux, macOS, and Windows, as long as .NET Core supports it.</p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="feature-item">
+                    <i class="fas fa-pastafarianism text-primary"></i>
+                    <h3>Language Agnostic</h3>
+                    <p class="text-muted">Although B2R2 is written in F#, it can <b>interoperate</b> well with other languages, such as Python and C#.</p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="feature-item">
+                    <i class="fas fa-unlock-alt text-primary"></i>
+                    <h3>Open Source</h3>
+                    <p class="text-muted">Since B2R2 is <b>MIT</b> licensed, you can even use it commercially!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="download bg-primary text-center" id="download">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 mx-auto">
+            <h2 class="section-heading">Download B2R2</h2>
+            <p>B2R2 binaries are available for download in both NuGet and GitHub!</p>
+            <div class="badges">
+              <a class="badge-link" href="#"><img src="https://raw.githubusercontent.com/NuGet/Home/dev/resources/nuget.png" alt=""></a>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              <a class="badge-link" href="#"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png" alt=""></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="github" id="github">
+      <div class="container">
+        <i class="fas fa-gift"></i>
+        <h3>The source is freely available on GitHub.</h3>
+        <p class="lead">
+          Building B2R2 is as easy as typing <code>dotnet build</code> in your terminal!
+        </p>
+
+        <i class="fab fa-github"></i>
+        <h3>We are looking forward to your contribution!</h3>
+        <p class="lead">
+          Please read carefully the contribution guideline before you create a pull
+          request.
+        </p>
+        <br/>
+        <a href="https://github.com/B2R2-org/B2R2" class="btn btn-outline-dark btn-lg"><i class="fas fa-code-branch"></i> Fork B2R2 on GitHub now!</a>
+      </div>
+    </section>
+
+    <section class="faq bg-primary" id="faq">
+      <div class="container">
+        <div class="section-heading text-center">
+          <h2>FAQ</h2>
+          <p>&nbsp;</p>
+        </div>
+        <div class="container">
+          <h3>Q. What's the meaning of B2R2?</h3>
+          <p class="m-4">
+            B2R2 is a binary analysis framework, thus, the name is related to
+            "binary" and "reversing". In fact, both "B" and "2" stand for
+            <em>binary</em>, and "R" means <em>reversing</em>. Originally, the
+            name of our framework was B2-R2, which was named after <em>R2-D2</em>,
+            a famous fictional robot appeared in the Star Wars. However, we decided
+            to omit the dash (-) as .NET does not allow it in identifiers (or
+            namespaces) anyways.
+          </p>
+
+          <h3>Q. The logo looks cool, does it have any special meaning?</h3>
+          <p class="m-4">
+            Yes, it is inspired by <a href="https://en.wikipedia.org/wiki/Bagua">Bagua</a>. The
+            two robots facing each other at the center of the logo resembles the
+            Tai Chi symbol of Bagua. In East Asian culture, every object in the
+            universe is considered to have their own engery (or force; to use
+            the Star Wars terminology). The energy can be either negative or
+            positive, which is called <a href="https://en.wikipedia.org/wiki/Yin_and_yang">Yin and Yang</a>, respectively.
+            The concept of Yin and Yang is strikingly simlar to "binary", because two
+            seeminlgy oppositie binary values (0 and 1) can form any computations
+            that a computer can perform. The repeated B2R2 letters appeared in the logo also
+            represent Yin and Yang (or binary) as its color alternates.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>&copy; <a href="https://softsec.kaist.ac.kr/" class="text-muted">SoftSec Lab.</a> @ KAIST, since 2016. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/b2r2.js"></script>
+
+  </body>
+
+</html>
