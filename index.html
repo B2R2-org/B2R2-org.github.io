@@ -6,11 +6,31 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description"
-          content="B2R2 is a collection of useful algorithms, functions, and tools for binary analysis, written purely in F#." />
+          content="B2R2 is an open-source binary analysis and reverse engineering framework for .NET, written purely in F#." />
     <meta name="keywords" content="B2R2, binary analysis, reverse engineering, F#, .NET" />
     <meta name="author" content="Sang Kil Cha" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
 
-    <title>B2R2 - Next-Generation Binary Analysis Framework</title>
+    <title>B2R2 - Open-Source Binary Analysis Framework for .NET</title>
+
+    <link rel="canonical" href="https://b2r2.org/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="B2R2" />
+    <meta property="og:title" content="B2R2 - Open-Source Binary Analysis Framework for .NET" />
+    <meta property="og:description"
+          content="Open-source binary analysis and reverse engineering framework for .NET, written purely in F#." />
+    <meta property="og:url" content="https://b2r2.org/" />
+    <meta property="og:image" content="https://b2r2.org/images/b2r2-3d.png" />
+    <meta property="og:image:width" content="640" />
+    <meta property="og:image:height" content="640" />
+    <meta property="og:image:alt" content="B2R2 binary analysis framework logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="B2R2 - Open-Source Binary Analysis Framework for .NET" />
+    <meta name="twitter:description"
+          content="Open-source binary analysis and reverse engineering framework for .NET, written purely in F#." />
+    <meta name="twitter:image" content="https://b2r2.org/images/b2r2-3d.png" />
+    <meta name="twitter:image:alt" content="B2R2 binary analysis framework logo" />
 
     <link href="css/b2r2.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -37,9 +57,63 @@
     <meta name="msapplication-TileImage" content="images/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "B2R2",
+            "applicationCategory": "DeveloperApplication",
+            "applicationSubCategory": "Binary Analysis Framework",
+            "operatingSystem": "Windows, macOS, Linux",
+            "description": "B2R2 is an open-source binary analysis and reverse engineering framework for .NET, written purely in F#.",
+            "url": "https://b2r2.org/",
+            "image": "https://b2r2.org/images/b2r2-3d.png",
+            "downloadUrl": "https://www.nuget.org/packages/B2R2.RearEnd.Launcher/",
+            "codeRepository": "https://github.com/B2R2-org/B2R2",
+            "license": "https://github.com/B2R2-org/B2R2/blob/main/LICENSE.md",
+            "programmingLanguage": "F#",
+            "runtimePlatform": ".NET",
+            "softwareHelp": "https://github.com/B2R2-org/B2R2",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "sameAs": [
+              "https://github.com/B2R2-org/B2R2",
+              "https://www.nuget.org/packages/B2R2.RearEnd.Launcher/"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What does B2R2 mean?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "B2R2 is a binary analysis framework, so its name comes from binary and reversing. Both B and 2 stand for binary, and R stands for reversing. The framework was originally named B2-R2, inspired by R2-D2 from Star Wars. The dash was later removed because .NET identifiers and namespaces do not allow it."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does the logo have any special meaning?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. The logo is inspired by Bagua. The two robots facing each other resemble the Tai Chi symbol, and the idea of Yin and Yang mirrors binary values such as 0 and 1. The repeated B2R2 letters and alternating colors also represent this binary duality."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
   </head>
 
-  <body>
+  <body id="page-top">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -68,12 +142,13 @@
       </div>
     </nav>
 
-    <header class="masthead">
+    <main>
+      <header class="masthead">
       <div class="container h-100">
         <div class="row h-100">
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
-              <h1 class="mb-5"><span class="text-white">B2R2</span> is a collection of handy libraries and tools <i class="fas fa-tools"></i> for <i><b class="text-white">binary analysis</b></i>, written purely in F#.</h1>
+              <h1 class="mb-5"><span class="text-white">B2R2</span> is a collection of open-source libraries and tools <i class="fas fa-tools"></i> for <i><b class="text-white">binary analysis</b></i>, written entirely in F#.</h1>
               <a href="#download" class="btn btn-outline-light btn-outline btn-xl js-scroll-trigger">Download it now!</a>
             </div>
           </div>
@@ -82,7 +157,7 @@
               <div class="device-mockup iphone6_plus portrait white">
                 <div class="device">
                   <div class="screen">
-                    <img src="images/b2r2-3d.png" class="img-fluid" alt="">
+                    <img src="images/b2r2-3d.png" class="img-fluid" alt="B2R2 logo displayed on the landing page" width="640" height="640">
                   </div>
                   <div class="button">
                     <!-- You can hook the "home button" to some JavaScript events or just remove it -->
@@ -93,13 +168,13 @@
           </div>
         </div>
       </div>
-    </header>
+      </header>
 
-    <section class="features" id="features">
+      <section class="features" id="features">
       <div class="container">
         <div class="section-heading text-center">
           <h2>Binary Analysis Made Easy and Fun!</h2>
-          <p class="text-muted">What are the features of B2R2?</p>
+          <p class="text-muted">Key features of B2R2</p>
           <hr>
         </div>
         <div class="row">
@@ -110,21 +185,21 @@
                   <div class="feature-item">
                     <i class="fas text-primary">&lambda;</i>
                     <h3>Functional First</h3>
-                    <p class="text-muted">Written purely in F#, providing all the syntactic goodies for writing program analyzers, such as <b>pattern matching</b>, <b>algebraic data types</b>, and etc.</p>
+                    <p class="text-muted">Written entirely in F#, B2R2 offers language features that make program analysis easier, including <b>pattern matching</b> and <b>algebraic data types</b>.</p>
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="feature-item">
                     <i class="fas fa-fighter-jet text-primary"></i>
                     <h3>Fast</h3>
-                    <p class="text-muted">B2R2 naturally supports <b>pure parallelism</b> thanks to F# (and its functional-first paradigm). Hence, you can write highly-optimized binary analyzers of your own.</p>
+                    <p class="text-muted">Thanks to F# and its functional-first design, B2R2 naturally supports <b>parallelism</b>, making it easier to build highly optimized binary analysis tools.</p>
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="feature-item">
                     <i class="fas fa-unlink text-primary"></i>
                     <h3>Fully Managed</h3>
-                    <p class="text-muted">As it is fully managed, there is absolutely <b>no dependency hell</b> for B2R2. All you need to do is to install .NET SDK to play with it!</p>
+                    <p class="text-muted">Because it is fully managed, B2R2 avoids dependency hell. All you need is the .NET SDK to get started.</p>
                   </div>
                 </div>
               </div>
@@ -133,21 +208,21 @@
                   <div class="feature-item">
                     <i class="fas fa-handshake text-primary"></i>
                     <h3>OS Independent</h3>
-                    <p class="text-muted">B2R2 runs on <b>any OS</b>, such as Linux, macOS, and Windows, as long as .NET supports it.</p>
+                    <p class="text-muted">B2R2 runs on any operating system supported by .NET, including <b>Linux</b>, <b>macOS</b>, and <b>Windows</b>.</p>
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="feature-item">
                     <i class="fas fa-pastafarianism text-primary"></i>
                     <h3>Language Agnostic</h3>
-                    <p class="text-muted">Although B2R2 is written in F#, it can <b>interoperate</b> well with other languages, such as Python and C#.</p>
+                    <p class="text-muted">Although B2R2 is written in F#, it interoperates well with other languages, including <b>C#</b> and <b>VB.NET</b>.</p>
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="feature-item">
                     <i class="fas fa-unlock-alt text-primary"></i>
                     <h3>Open Source</h3>
-                    <p class="text-muted">Since B2R2 is <b>MIT</b> licensed, you can even use it commercially!</p>
+                    <p class="text-muted">B2R2 is released under the <b>MIT License</b>, so you can use it in commercial projects as well.</p>
                   </div>
                 </div>
               </div>
@@ -155,79 +230,78 @@
           </div>
         </div>
       </div>
-    </section>
+      </section>
 
-    <section class="download bg-primary text-center" id="download">
+      <section class="download bg-primary text-center" id="download">
       <div class="container">
         <div class="row">
           <div class="col-md-8 mx-auto">
             <h2 class="section-heading">Download B2R2</h2>
-            <p>B2R2 binaries are available for download from both NuGet and GitHub!</p>
+            <p>B2R2 is available from both NuGet and GitHub.</p>
             <div class="badges">
-              <a class="badge-link" href="https://www.nuget.org/packages/B2R2.RearEnd.Launcher/"><img src="https://raw.githubusercontent.com/NuGet/Home/dev/meta/resources/nuget.png" alt=""></a>
+              <a class="badge-link" href="https://www.nuget.org/packages/B2R2.RearEnd.Launcher/"><img src="https://raw.githubusercontent.com/NuGet/Home/dev/meta/resources/nuget.png" alt="Download B2R2 from NuGet"></a>
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              <a class="badge-link" href="https://github.com/B2R2-org/B2R2"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png" alt=""></a>
+              <a class="badge-link" href="https://github.com/B2R2-org/B2R2"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png" alt="View the B2R2 source code on GitHub"></a>
             </div>
           </div>
         </div>
       </div>
-    </section>
+      </section>
 
-    <section class="github" id="github">
+      <section class="github" id="github">
       <div class="container">
         <i class="fas fa-gift"></i>
-        <h3>The source is freely available on GitHub.</h3>
+        <h3>The source code is freely available on GitHub.</h3>
         <p class="lead">
-          Building B2R2 is as easy as just typing <code>dotnet build</code> in
-          your terminal! No <em>dependency hell</em>. It just works!
+          Building B2R2 is as simple as running <code>dotnet build</code> in
+          your terminal. No <em>dependency hell</em>. It just works.
         </p>
 
         <i class="fab fa-github"></i>
-        <h3>We are looking forward to your contribution!</h3>
+        <h3>We welcome contributions.</h3>
         <p class="lead">
-          Please read carefully the
-          <a href="https://github.com/B2R2-org/B2R2/blob/master/CONTRIBUTING.md">contribution guideline</a>
-          before you create a pull request.
+          Please read the
+          <a href="https://github.com/B2R2-org/B2R2/blob/main/CONTRIBUTING.md">contribution guidelines</a>
+          carefully before opening a pull request.
         </p>
         <br/>
-        <a href="https://github.com/B2R2-org/B2R2" class="btn btn-outline-dark btn-lg" role="button"><i class="fas fa-code-branch"></i> Fork B2R2 on GitHub now!</a>
+        <a href="https://github.com/B2R2-org/B2R2" class="btn btn-outline-dark btn-lg" role="button"><i class="fas fa-code-branch"></i> Fork B2R2 on GitHub</a>
       </div>
-    </section>
+      </section>
 
-    <section class="faq bg-primary" id="faq">
+      <section class="faq bg-primary" id="faq">
       <div class="container">
         <div class="section-heading text-center">
           <h2>FAQ</h2>
           <p>&nbsp;</p>
         </div>
         <div class="container">
-          <h3>Q. What's the meaning of B2R2?</h3>
+          <h3>Q. What does B2R2 mean?</h3>
           <p class="m-4">
-            B2R2 is a binary analysis framework, thus, the name is related to
-            "binary" and "reversing". In fact, both "B" and "2" stand for
-            <em>binary</em>, and "R" means <em>reversing</em>. Originally, the
-            name of our framework was B2-R2, which was named after <em>R2-D2</em>,
-            a famous fictional robot appeared in the Star Wars. However, we decided
-            to omit the dash (-) as .NET does not allow it in identifiers (or
-            namespaces) anyways.
+            B2R2 is a binary analysis framework, so its name comes from
+            "binary" and "reversing." In fact, both "B" and "2" stand for
+            <em>binary</em>, and "R" stands for <em>reversing</em>. Originally,
+            the framework was named B2-R2, inspired by <em>R2-D2</em> from
+            Star Wars. We later removed the dash (-) because .NET does not
+            allow it in identifiers or namespaces.
           </p>
 
           <h3>Q. Does the logo have any special meaning?</h3>
           <p class="m-4">
-            Yes, it is inspired by <a href="https://en.wikipedia.org/wiki/Bagua">Bagua</a>. The
-            two robots facing each other at the center of the logo resembles the
-            Tai Chi symbol of Bagua. In Taoism, every object in the
-            universe is considered to have their own energy (or force; to use
-            the Star Wars terminology). The energy can be either negative or
-            positive, which is called <a href="https://en.wikipedia.org/wiki/Yin_and_yang">Yin and Yang</a>, respectively.
-            The concept of Yin and Yang is strikingly similar to "binary", because two
-            seemingly opposite binary values (0 and 1) can form any computations
-            that a computer can perform. The repeated B2R2 letters appeared in the logo also
-            represent Yin and Yang (or binary) as its color alternates.
+            Yes. It is inspired by <a href="https://en.wikipedia.org/wiki/Bagua">Bagua</a>. The
+            two robots facing each other at the center of the logo resemble the
+            Tai Chi symbol. In Taoism, every object in the universe is considered
+            to have its own energy, or force. This energy can be either negative
+            or positive, which are known as <a href="https://en.wikipedia.org/wiki/Yin_and_yang">Yin and Yang</a>,
+            respectively. The idea is strikingly similar to "binary", because two
+            seemingly opposite values, 0 and 1, can represent any computation a
+            computer can perform. The repeated B2R2 letters in the logo also
+            reflect Yin and Yang, or binary duality, through their alternating colors.
           </p>
         </div>
       </div>
-    </section>
+      </section>
+    </main>
 
     <footer>
       <div class="container">
