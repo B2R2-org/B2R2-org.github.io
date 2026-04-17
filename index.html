@@ -62,7 +62,29 @@
         "@context": "https://schema.org",
         "@graph": [
           {
+            "@type": "WebSite",
+            "@id": "https://b2r2.org/#website",
+            "url": "https://b2r2.org/",
+            "name": "B2R2",
+            "description": "Open-source binary analysis and reverse engineering framework for .NET, written purely in F#."
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://b2r2.org/#webpage",
+            "url": "https://b2r2.org/",
+            "name": "B2R2 - Open-Source Binary Analysis Framework for .NET",
+            "description": "Official homepage for B2R2, an open-source binary analysis and reverse engineering framework for .NET.",
+            "isPartOf": {
+              "@id": "https://b2r2.org/#website"
+            },
+            "about": {
+              "@id": "https://b2r2.org/#software"
+            },
+            "primaryImageOfPage": "https://b2r2.org/images/b2r2-3d.png"
+          },
+          {
             "@type": "SoftwareApplication",
+            "@id": "https://b2r2.org/#software",
             "name": "B2R2",
             "applicationCategory": "DeveloperApplication",
             "applicationSubCategory": "Binary Analysis Framework",
@@ -75,7 +97,14 @@
             "license": "https://github.com/B2R2-org/B2R2/blob/main/LICENSE.md",
             "programmingLanguage": "F#",
             "runtimePlatform": ".NET",
-            "softwareHelp": "https://github.com/B2R2-org/B2R2",
+            "softwareHelp": {
+              "@id": "https://b2r2.org/B2R2/#api-reference"
+            },
+            "subjectOf": [
+              {
+                "@id": "https://b2r2.org/B2R2/#api-reference"
+              }
+            ],
             "offers": {
               "@type": "Offer",
               "price": "0",
@@ -85,6 +114,25 @@
               "https://github.com/B2R2-org/B2R2",
               "https://www.nuget.org/packages/B2R2.RearEnd.Launcher/"
             ]
+          },
+          {
+            "@type": "TechArticle",
+            "@id": "https://b2r2.org/B2R2/#api-reference",
+            "url": "https://b2r2.org/B2R2/",
+            "name": "B2R2 API Reference",
+            "headline": "B2R2 API Reference",
+            "description": "Reference documentation for the B2R2 library API, including namespaces, types, and usage details for F# and C# developers.",
+            "isPartOf": {
+              "@id": "https://b2r2.org/#website"
+            },
+            "about": {
+              "@id": "https://b2r2.org/#software"
+            },
+            "audience": {
+              "@type": "Audience",
+              "audienceType": "Software developers"
+            },
+            "learningResourceType": "API Reference"
           },
           {
             "@type": "FAQPage",
@@ -132,7 +180,7 @@
               <a class="nav-link js-scroll-trigger" href="#download">Download</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#github">GitHub</a>
+              <a class="nav-link js-scroll-trigger" href="#resources">Resources</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#faq">FAQ</a>
@@ -241,14 +289,14 @@
             <div class="badges">
               <a class="badge-link" href="https://www.nuget.org/packages/B2R2.RearEnd.Launcher/"><img src="https://raw.githubusercontent.com/NuGet/Home/dev/meta/resources/nuget.png" alt="Download B2R2 from NuGet"></a>
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              <a class="badge-link" href="https://github.com/B2R2-org/B2R2"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png" alt="View the B2R2 source code on GitHub"></a>
+              <a class="badge-link" href="https://github.com/B2R2-org/B2R2/releases/"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png" alt="View the B2R2 source code on GitHub"></a>
             </div>
           </div>
         </div>
       </div>
       </section>
 
-      <section class="github" id="github">
+      <section class="resources" id="resources">
       <div class="container">
         <i class="fas fa-gift"></i>
         <h3>The source code is freely available on GitHub.</h3>
@@ -266,6 +314,7 @@
         </p>
         <br/>
         <a href="https://github.com/B2R2-org/B2R2" class="btn btn-outline-dark btn-lg" role="button"><i class="fas fa-code-branch"></i> Fork B2R2 on GitHub</a>
+        <a href="https://b2r2.org/B2R2/" class="btn btn-outline-dark btn-lg ml-3" role="button" aria-label="Open the B2R2 API reference"><i class="fas fa-book"></i> Browse the API Reference</a>
       </div>
       </section>
 

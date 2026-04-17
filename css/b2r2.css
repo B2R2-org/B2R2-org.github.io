@@ -292,16 +292,16 @@ section.features .feature-item i {
   -webkit-text-fill-color: transparent;
 }
 
-section.github {
+section.resources {
   text-align: center;
 }
 
-section.github h2 {
+section.resources h2 {
   margin-top: 0;
   margin-bottom: 25px;
 }
 
-section.github i {
+section.resources i {
   font-size: 80px;
   display: block;
   margin-bottom: 15px;
