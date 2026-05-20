@@ -1,0 +1,769 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Symbolic Execution | B2R2 Tutorial</title><link rel="canonical" href="https://b2r2.org/tutorial-icst2026/api-reference/symbolic-execution/"/><link rel="sitemap" href="/tutorial-icst2026/sitemap-index.xml"/><script>
+            (() => {
+              let ticking = false;
+              let tocObserver;
+              let suppressTocMutation = false;
+              let tocStepTimer;
+
+              const getToc = () => document.querySelector('.right-sidebar-panel starlight-toc');
+
+              const syncTocTitle = (toc) => {
+                const pageTitle = document.getElementById('_top')?.textContent?.trim();
+                const topLinkText = toc.querySelector('a[href="#_top"] span');
+                if (pageTitle && topLinkText) {
+                  topLinkText.textContent = pageTitle;
+                }
+              };
+
+              const setCurrentTocLink = (links, nextCurrent) => {
+                if (!nextCurrent) return;
+                suppressTocMutation = true;
+                links.forEach((link) => {
+                  if (link === nextCurrent) {
+                    if (link.getAttribute('aria-current') !== 'true') {
+                      link.setAttribute('aria-current', 'true');
+                    }
+                  } else if (link.hasAttribute('aria-current')) {
+                    link.removeAttribute('aria-current');
+                  }
+                });
+                requestAnimationFrame(() => {
+                  suppressTocMutation = false;
+                });
+              };
+
+              const getLinkTarget = (link) => {
+                const href = link.getAttribute('href');
+                if (!href || !href.startsWith('#')) return null;
+
+                try {
+                  return document.getElementById(decodeURIComponent(href.slice(1)));
+                } catch {
+                  return document.getElementById(href.slice(1));
+                }
+              };
+
+              const findCurrentSectionLink = (topLink, sectionLinks) => {
+                let current = topLink;
+                const activationLine = Math.min(160, window.innerHeight * 0.28);
+
+                for (const link of sectionLinks) {
+                  const target = getLinkTarget(link);
+                  if (!target) continue;
+                  if (target.getBoundingClientRect().top <= activationLine) {
+                    current = link;
+                  } else {
+                    break;
+                  }
+                }
+
+                return current;
+              };
+
+              const keepTocProgressSequential = (orderedLinks, desiredLink) => {
+                if (!desiredLink) return { link: desiredLink, stepped: false };
+
+                const currentLink = orderedLinks.find((link) => link.getAttribute('aria-current') === 'true');
+                if (!currentLink) return { link: desiredLink, stepped: false };
+
+                const currentIndex = orderedLinks.indexOf(currentLink);
+                const desiredIndex = orderedLinks.indexOf(desiredLink);
+                if (currentIndex === -1 || desiredIndex === -1) return { link: desiredLink, stepped: false };
+
+                const distance = desiredIndex - currentIndex;
+                if (Math.abs(distance) <= 1) return { link: desiredLink, stepped: false };
+
+                return {
+                  link: orderedLinks[currentIndex + Math.sign(distance)],
+                  stepped: true
+                };
+              };
+
+              const normalizeTocCurrent = () => {
+                ticking = false;
+
+                const doc = document.documentElement;
+                const nearPageTop = window.scrollY <= 8;
+                const nearPageEnd = window.scrollY + window.innerHeight >= doc.scrollHeight - 8;
+
+                const toc = getToc();
+                if (!toc) return;
+                observeToc();
+
+                syncTocTitle(toc);
+
+                const links = Array.from(toc.querySelectorAll('a[href^="#"]'));
+                if (links.length === 0) return;
+
+                const visibleLinks = links.filter((link) => link.offsetParent !== null);
+                const topLink = links.find((link) => link.getAttribute('href') === '#_top');
+                const sectionLinks = visibleLinks.filter((link) => link.getAttribute('href') !== '#_top');
+
+                const orderedLinks = topLink ? [topLink, ...sectionLinks] : sectionLinks;
+
+                let nextCurrent = findCurrentSectionLink(topLink, sectionLinks);
+                if (nearPageTop) {
+                  nextCurrent = topLink;
+                } else if (nearPageEnd) {
+                  nextCurrent = sectionLinks[sectionLinks.length - 1];
+                }
+
+                const sequentialCurrent = keepTocProgressSequential(orderedLinks, nextCurrent);
+                setCurrentTocLink(links, sequentialCurrent.link);
+
+                if (sequentialCurrent.stepped) {
+                  window.clearTimeout(tocStepTimer);
+                  tocStepTimer = window.setTimeout(scheduleTocUpdate, 120);
+                }
+              };
+
+              const scheduleTocUpdate = () => {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(normalizeTocCurrent);
+              };
+
+              const observeToc = () => {
+                const toc = getToc();
+                if (!toc || tocObserver) return;
+
+                tocObserver = new MutationObserver(() => {
+                  if (!suppressTocMutation) {
+                    scheduleTocUpdate();
+                  }
+                });
+                tocObserver.observe(toc, {
+                  attributes: true,
+                  attributeFilter: ['aria-current'],
+                  subtree: true
+                });
+              };
+
+              window.addEventListener('scroll', scheduleTocUpdate, { passive: true });
+              window.addEventListener('resize', scheduleTocUpdate);
+              window.addEventListener('load', () => {
+                observeToc();
+                scheduleTocUpdate();
+              });
+              document.addEventListener('DOMContentLoaded', () => {
+                observeToc();
+                scheduleTocUpdate();
+              });
+            })();
+          </script><link rel="shortcut icon" href="/tutorial-icst2026/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.3.3"/><meta name="generator" content="Starlight v0.39.2"/><meta property="og:title" content="Symbolic Execution"/><meta property="og:type" content="article"/><meta property="og:url" content="https://b2r2.org/tutorial-icst2026/api-reference/symbolic-execution/"/><meta property="og:locale" content="en"/><meta property="og:description" content="API reference for SymbExecutor, symbolic state helpers, solvers, models, and call hooks."/><meta property="og:site_name" content="B2R2 Tutorial"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="API reference for SymbExecutor, symbolic state helpers, solvers, models, and call hooks."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/tutorial-icst2026/_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="/tutorial-icst2026/_astro/common.BatnFhkY.css"><script type="module" src="/tutorial-icst2026/_astro/page.B_tncCx8.js"></script></head> <body class="astro-bguv2lll"> <a href="#_top" class="astro-7q3lir66">Skip to content</a> <div class="page sl-flex astro-vrdttmbt"> <header class="header astro-vrdttmbt"><div class="header astro-3ef6ksr2"> <div class="title-wrapper sl-flex astro-3ef6ksr2"> <a href="/tutorial-icst2026/" class="site-title sl-flex astro-m46x6ez3">  <img class="astro-m46x6ez3" alt="B2R2 logo" src="/tutorial-icst2026/_astro/b2r2-240x240.DTaXsLfQ.png" width="240" height="240">  <span class="astro-m46x6ez3" translate="no"> B2R2 Tutorial </span> </a> </div> <div class="sl-flex print:hidden astro-3ef6ksr2"> <site-search class="astro-3ef6ksr2 astro-v37mnknz" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-v37mnknz"> <svg aria-hidden="true" class="astro-v37mnknz astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-v37mnknz" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-v37mnknz" style="display: none;"> <kbd class="astro-v37mnknz">Ctrl</kbd><kbd class="astro-v37mnknz">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-v37mnknz"> <div class="dialog-frame sl-flex astro-v37mnknz">  <button data-close-modal class="sl-flex md:sl-hidden astro-v37mnknz"> Cancel </button> <div class="search-container astro-v37mnknz"> <div id="starlight__search" class="astro-v37mnknz"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="/tutorial-icst2026/_astro/Search.astro_astro_type_script_index_0_lang.DRrH9zrU.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <nav class="section-switcher astro-3ef6ksr2" aria-label="Documentation sections"> <a href="/tutorial-icst2026/" class="section-switcher__link astro-3ef6ksr2">
+Tutorial
+</a> <span class="section-switcher__separator astro-3ef6ksr2" aria-hidden="true">|</span> <a href="/tutorial-icst2026/api-reference/" class="section-switcher__link active astro-3ef6ksr2" aria-current="location">
+API Reference
+</a> </nav> <div class="sl-flex social-icons astro-3ef6ksr2"> <a href="https://github.com/B2R2-org/B2R2" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">B2R2 on GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Dark</option><option value="light" class="astro-4yphtoen">Light</option><option value="auto" selected class="astro-4yphtoen">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script> <script type="module">const r="starlight-theme",o=e=>e==="auto"||e==="dark"||e==="light"?e:"auto",c=()=>o(typeof localStorage<"u"&&localStorage.getItem(r));function n(e){typeof localStorage<"u"&&localStorage.setItem(r,e==="light"||e==="dark"?e:"")}const l=()=>matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";function t(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e==="auto"?l():e,n(e)}matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{c()==="auto"&&t("auto")});class s extends HTMLElement{constructor(){super(),t(c()),this.querySelector("select")?.addEventListener("change",a=>{a.currentTarget instanceof HTMLSelectElement&&t(o(a.currentTarget.value))})}}customElements.define("starlight-theme-select",s);</script> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div></header> <nav class="sidebar print:hidden astro-vrdttmbt" aria-label="Main"> <starlight-menu-button class="print:hidden astro-jif73yzw"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-jif73yzw"> <svg aria-hidden="true" class="open-menu astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>  <div id="starlight__sidebar" class="sidebar-pane astro-vrdttmbt"> <div class="sidebar-content sl-flex astro-vrdttmbt"> <sl-sidebar-state-persist data-hash="15bhkya" class="astro-kku4brbg"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Home</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/binhandle/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">BinHandle</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/binarybrew/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">BinaryBrew</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/concrete-execution/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Concrete Execution</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/symbolic-execution/" aria-current="page" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Symbolic Execution</span>  </a> </li> </ul>  <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-wu23bvmt"> <div class="social-icons astro-wu23bvmt"> <a href="https://github.com/B2R2-org/B2R2" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">B2R2 on GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Dark</option><option value="light" class="astro-4yphtoen">Light</option><option value="auto" selected class="astro-4yphtoen">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script>   </div> </div> </div> </div> </nav> <div class="main-frame astro-vrdttmbt">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-67yu43on"> <aside class="right-sidebar-container print:hidden astro-67yu43on"> <div class="right-sidebar astro-67yu43on"> <div class="lg:sl-hidden astro-pb3aqygn"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-doynk5tl"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-doynk5tl"><details id="starlight__mobile-toc" class="astro-doynk5tl"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-doynk5tl"><span class="toggle sl-flex astro-doynk5tl">On this page<svg aria-hidden="true" class="caret astro-doynk5tl astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-doynk5tl"></span></summary><div class="dropdown astro-doynk5tl"><ul class="isMobile astro-gnoq344e" style="--depth: 0;"> <li class="astro-gnoq344e" style="--depth: 0;"> <a href="#_top" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#symbexecutor" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">SymbExecutor</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#state-creation" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">State Creation</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#queries-and-avoids" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Queries and Avoids</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#run-options" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Run Options</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#run-result" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Run Result</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#symbstateaccessor" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">SymbStateAccessor</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#shared-state-accessor-members" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Shared State Accessor Members</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#symbbytebuffer" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">SymbByteBuffer</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#symbolic-expressions-and-query-values" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Symbolic Expressions and Query Values</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#solvers-and-models" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Solvers and Models</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#call-hooks" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Call Hooks</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#example" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Example</span> </a>  </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="/tutorial-icst2026/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-pb3aqygn"><div class="sl-container astro-pb3aqygn"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-gnoq344e" style="--depth: 0;"> <li class="astro-gnoq344e" style="--depth: 0;"> <a href="#_top" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#symbexecutor" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">SymbExecutor</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#state-creation" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">State Creation</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#queries-and-avoids" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Queries and Avoids</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#run-options" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Run Options</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#run-result" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Run Result</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#symbstateaccessor" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">SymbStateAccessor</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#shared-state-accessor-members" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Shared State Accessor Members</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#symbbytebuffer" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">SymbByteBuffer</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#symbolic-expressions-and-query-values" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Symbolic Expressions and Query Values</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#solvers-and-models" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Solvers and Models</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#call-hooks" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Call Hooks</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#example" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Example</span> </a>  </li> </ul></nav></starlight-toc><script type="module" src="/tutorial-icst2026/_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-67yu43on">  <main data-pagefind-body class="astro-bguv2lll" lang="en" dir="ltr">    <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <h1 id="_top" class="astro-j6tvhyss">Symbolic Execution</h1> </div> </div> <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="sl-markdown-content"> <p>Symbolic execution explores lifted LowUIR with <code dir="auto">SymbExpr</code> values and optional
+solver-backed reachability or satisfiability queries.</p>
+<p>Sources:</p>
+<ul>
+<li><code dir="auto">B2R2/src/MiddleEnd/SymbEval/SymbExecutor.fs</code></li>
+<li><code dir="auto">B2R2/src/MiddleEnd/SymbEval/SymbStateAccessor.fs</code></li>
+<li><code dir="auto">B2R2/src/MiddleEnd/SymbEval/SymbExpr.fs</code></li>
+<li><code dir="auto">B2R2/src/MiddleEnd/SymbEval/ISolver.fs</code></li>
+<li><code dir="auto">B2R2/src/MiddleEnd/SymbEval/SymbModel.fs</code></li>
+<li><code dir="auto">B2R2/src/MiddleEnd/SymbEval/SymbCallHook.fs</code></li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="symbexecutor">SymbExecutor</h2><a class="sl-anchor-link" href="#symbexecutor"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “SymbExecutor”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">SymbExecutor(hdl)</code></td><td>Create a symbolic executor for a binary.</td></tr><tr><td><code dir="auto">CreateState()</code></td><td>Create a <code dir="auto">SymbState</code> with <code dir="auto">BinSectionBackedMemory</code> and no initial registers.</td></tr><tr><td><code dir="auto">CreateState(options)</code></td><td>Create a state with explicit <code dir="auto">StateCreationOptions&#x3C;ISymbMemory, SymbExpr></code>.</td></tr><tr><td><code dir="auto">Run(start, state, options)</code></td><td>Run with <code dir="auto">SymbRunOptions</code>.</td></tr><tr><td><code dir="auto">Run(start, state, calls, query, solver)</code></td><td>Convenience overload using call policy, query request, and solver.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="state-creation">State Creation</h2><a class="sl-anchor-link" href="#state-creation"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “State Creation”</span></a></div>
+<p><code dir="auto">CreateState(options)</code> accepts <code dir="auto">StateCreationOptions&#x3C;ISymbMemory, SymbExpr></code>.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/tutorial-icst2026/_astro/ec.v4551.css"><script type="module" src="/tutorial-icst2026/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="fsharp"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">type</span><span style="--0:#D6DEEB;--1:#403F53"> StateCreationOptions</span><span style="--0:#C792EA;--1:#8844AE">&#x3C;</span><span style="--0:#D6DEEB;--1:#403F53">'Memory</span><span style="--0:#C792EA;--1:#8844AE">,</span><span style="--0:#D6DEEB;--1:#403F53"> 'Value</span><span style="--0:#C792EA;--1:#8844AE">></span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">{</span><span style="--0:#D6DEEB;--1:#403F53"> Memory</span><span style="--0:#C792EA;--1:#8844AE">:</span><span style="--0:#D6DEEB;--1:#403F53"> InitialMemory</span><span style="--0:#C792EA;--1:#8844AE">&#x3C;</span><span style="--0:#D6DEEB;--1:#403F53">'Memory</span><span style="--0:#C792EA;--1:#8844AE">></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">Registers</span><span style="--0:#C792EA;--1:#8844AE">:</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">(</span><span style="--0:#D6DEEB;--1:#403F53">RegisterID </span><span style="--0:#C792EA;--1:#8844AE">*</span><span style="--0:#D6DEEB;--1:#403F53"> 'Value</span><span style="--0:#C792EA;--1:#8844AE">)[]</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="type StateCreationOptions<&#x27;Memory, &#x27;Value> =  { Memory: InitialMemory<&#x27;Memory>    Registers: (RegisterID * &#x27;Value)[] }"><div></div></button></div></figure></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Initial memory</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">EmptyMemory</code></td><td>Start from an empty symbolic memory object.</td></tr><tr><td><code dir="auto">PreinitializedMemory memory</code></td><td>Start from a caller-provided symbolic memory object.</td></tr><tr><td><code dir="auto">BinSectionBackedMemory</code></td><td>Back memory reads with loaded binary sections.</td></tr></tbody></table>
+<p>Initial registers are passed as <code dir="auto">(RegisterID * SymbExpr)[]</code>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="queries-and-avoids">Queries and Avoids</h2><a class="sl-anchor-link" href="#queries-and-avoids"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Queries and Avoids”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">ReachAddress target</code></td><td>Ask if execution can reach an address.</td></tr><tr><td><code dir="auto">ReachState predicate</code></td><td>Ask if execution can reach a state predicate.</td></tr><tr><td><code dir="auto">SatisfyAddress target</code></td><td>Ask for concrete symbolic-input values reaching an address.</td></tr><tr><td><code dir="auto">SatisfyState predicate</code></td><td>Ask for concrete symbolic-input values reaching a state predicate.</td></tr><tr><td><code dir="auto">AvoidAddresses addrs</code></td><td>Discard states whose PC reaches any address in the set.</td></tr><tr><td><code dir="auto">AvoidState predicate</code></td><td>Discard states matching a predicate.</td></tr><tr><td><code dir="auto">NoSolver</code></td><td>Run without solver support.</td></tr><tr><td><code dir="auto">CustomSolver solver</code></td><td>Use an <code dir="auto">ISolver</code> implementation.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="run-options">Run Options</h2><a class="sl-anchor-link" href="#run-options"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Run Options”</span></a></div>
+<p><code dir="auto">SymbRunOptions.Default(query)</code> creates a bounded default with no solver.
+<code dir="auto">SymbRunOptions.Default(query, solver)</code> uses a solver. Defaults are
+<code dir="auto">FollowDirectInternalCalls</code>, <code dir="auto">MaxDepth = 500</code>, <code dir="auto">MaxStates = 4096</code>,
+<code dir="auto">LoopBound = 1</code>, <code dir="auto">RunTimeout = 30000</code>, path pruning disabled, and stop at first
+answer enabled.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Member</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">AddQueryValue value</code> / <code dir="auto">AddQueryValues values</code></td><td>Add symbolic values to model extraction.</td></tr><tr><td><code dir="auto">WithQueryValues values</code></td><td>Replace model extraction values with a sequence or <code dir="auto">IQueryExpr</code>.</td></tr><tr><td><code dir="auto">AddQueryBuffer buffer</code> / <code dir="auto">AddQueryBuffers buffers</code></td><td>Add symbolic byte buffers to model extraction.</td></tr><tr><td><code dir="auto">AddAvoidAddress addr</code> / <code dir="auto">AddAvoidAddresses addrs</code></td><td>Add addresses to avoid.</td></tr><tr><td><code dir="auto">WithAvoidAddresses addrs</code></td><td>Replace the avoid set.</td></tr><tr><td><code dir="auto">WithAvoid avoid</code> / <code dir="auto">AddAvoid avoid</code></td><td>Set or combine avoid conditions.</td></tr><tr><td><code dir="auto">AddAvoidState predicate</code></td><td>Add a predicate-based avoid condition.</td></tr><tr><td><code dir="auto">StopAtCalls()</code></td><td>Stop before calls.</td></tr><tr><td><code dir="auto">FollowDirectInternalCalls()</code></td><td>Follow direct internal calls.</td></tr><tr><td><code dir="auto">WithCallHooks hooks</code></td><td>Use a prepared hook registry.</td></tr><tr><td><code dir="auto">RegisterCallHook(target, hook)</code> / <code dir="auto">RegisterCallHooks hooks</code></td><td>Register symbolic call hooks.</td></tr><tr><td><code dir="auto">WithSolver solver</code></td><td>Replace the solver backend.</td></tr><tr><td><code dir="auto">EnablePathPruning()</code> / <code dir="auto">DisablePathPruning()</code></td><td>Toggle solver-backed path pruning.</td></tr><tr><td><code dir="auto">EnableStopAtFirstAnswer()</code> / <code dir="auto">DisableStopAtFirstAnswer()</code></td><td>Toggle early stop after an answer.</td></tr><tr><td><code dir="auto">WithWarmUpRanges ranges</code></td><td>Pre-lift half-open address ranges <code dir="auto">[start, finish)</code>.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="run-result">Run Result</h2><a class="sl-anchor-link" href="#run-result"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Run Result”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Result</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">Reachable answers</code></td><td>One or more states reached the target.</td></tr><tr><td><code dir="auto">Unreachable</code></td><td>No explored state reached the target.</td></tr><tr><td><code dir="auto">Satisfiable answers</code></td><td>One or more concrete assignments satisfy the query.</td></tr><tr><td><code dir="auto">Unsatisfiable</code></td><td>No explored assignment satisfies the query.</td></tr><tr><td><code dir="auto">Unknown failures</code></td><td>Execution stopped or pruned before a complete answer.</td></tr><tr><td><code dir="auto">TimedOut(timeout, result)</code></td><td>Timeout with a partial result.</td></tr></tbody></table>
+<p><code dir="auto">SymbSatisfiabilityAnswer.Model</code> wraps solver values in <code dir="auto">SymbModel</code>.
+<code dir="auto">SymbRunResult.GetSatisfiabilityAnswer()</code> returns the first satisfiability
+answer or raises if none is available.</p>
+<p>Common stop reasons are <code dir="auto">StoppedAtCall</code>, <code dir="auto">DepthLimitReached</code>,
+<code dir="auto">StateLimitReached</code>, <code dir="auto">InvalidInstructionStopped</code>, <code dir="auto">SideEffectStopped</code>,
+<code dir="auto">EvaluationFailed</code>, <code dir="auto">MissingSolverForQuery</code>, <code dir="auto">SolverQueryFailed</code>, and
+<code dir="auto">RunTimeoutReached</code>. Common prune reasons are <code dir="auto">AvoidedAddress</code>, <code dir="auto">AvoidedState</code>,
+<code dir="auto">LoopBoundReached</code>, <code dir="auto">InfeasiblePath</code>, and <code dir="auto">SolverPruningFailed</code>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="symbstateaccessor">SymbStateAccessor</h2><a class="sl-anchor-link" href="#symbstateaccessor"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “SymbStateAccessor”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">SymbStateAccessor(hdl, state)</code></td><td>Linux ABI accessor.</td></tr><tr><td><code dir="auto">SymbStateAccessor(hdl, state, os)</code></td><td>Accessor for a specific <code dir="auto">OS</code>.</td></tr><tr><td><code dir="auto">DefaultStringBound</code></td><td>Default symbolic C-string payload length: <code dir="auto">64</code>.</td></tr><tr><td><code dir="auto">DefaultStackTop</code></td><td>Default stack top: <code dir="auto">0x7fffffffe000UL</code>.</td></tr><tr><td><code dir="auto">State</code></td><td>Underlying <code dir="auto">SymbState</code>.</td></tr><tr><td><code dir="auto">WordType</code> / <code dir="auto">WordBytes</code></td><td>Target word type and byte width.</td></tr><tr><td><code dir="auto">StackPointer</code></td><td>Current concrete stack pointer value.</td></tr><tr><td><code dir="auto">WordValue(addr)</code></td><td>Create a concrete word-sized <code dir="auto">SymbExpr</code>.</td></tr><tr><td><code dir="auto">CreateSymbolicBytes(name, length)</code></td><td>Create symbolic byte variables without writing memory.</td></tr><tr><td><code dir="auto">TryGetConcreteRegister rid</code></td><td>Read a register as a concrete address, returning <code dir="auto">Result</code>.</td></tr><tr><td><code dir="auto">TryGetStackPointer()</code> / <code dir="auto">TrySetStackPointer addr</code></td><td>Stack pointer access without throwing when unavailable.</td></tr><tr><td><code dir="auto">TryPushToStack value</code> / <code dir="auto">TryPopFromStack()</code></td><td>Stack operations returning <code dir="auto">Result</code>.</td></tr><tr><td><code dir="auto">WriteSymbolicBuffer(name, addr, length)</code></td><td>Write symbolic bytes at <code dir="auto">addr</code>.</td></tr><tr><td><code dir="auto">WriteSymbolicBuffer(name, addr, length, nullTerminate)</code></td><td>Write symbolic bytes and optionally append a null byte.</td></tr><tr><td><code dir="auto">AllocateSymbolicBuffer(name, length)</code></td><td>Allocate stack space and write symbolic bytes.</td></tr><tr><td><code dir="auto">AllocateSymbolicBuffer(name, length, nullTerminate)</code></td><td>Allocate symbolic bytes with optional null termination.</td></tr><tr><td><code dir="auto">SetArgumentBuffer(idx, buffer)</code></td><td>Set an argument register to the buffer address.</td></tr><tr><td><code dir="auto">AllocateSymbolicString(name)</code> / <code dir="auto">AllocateSymbolicString(name, maxLength)</code></td><td>Allocate a null-terminated symbolic string.</td></tr><tr><td><code dir="auto">SetArgumentSymbolicString(idx, name)</code> / <code dir="auto">SetArgumentSymbolicString(idx, name, maxLength)</code></td><td>Allocate a symbolic string and pass it as an argument.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="shared-state-accessor-members">Shared State Accessor Members</h2><a class="sl-anchor-link" href="#shared-state-accessor-members"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Shared State Accessor Members”</span></a></div>
+<p><code dir="auto">SymbStateAccessor</code> also exposes common state-accessor members for registers,
+arguments, return values, and stack buffers.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">SetStackPointer(addr)</code></td><td>Set the stack pointer register.</td></tr><tr><td><code dir="auto">InitializeStack(stackTop)</code></td><td>Initialize the stack pointer to an explicit address.</td></tr><tr><td><code dir="auto">InitializeFramePointer()</code></td><td>Initialize the frame pointer from the current stack pointer.</td></tr><tr><td><code dir="auto">SetRegister(rid, value)</code> / <code dir="auto">GetRegister(rid)</code></td><td>Write or read a symbolic register value.</td></tr><tr><td><code dir="auto">ZeroRegisters(names: string[])</code> / <code dir="auto">ZeroRegisters(rids: RegisterID[])</code></td><td>Clear selected registers to zero values.</td></tr><tr><td><code dir="auto">SetArgument(index, value)</code></td><td>Set the ABI argument register at <code dir="auto">index</code>.</td></tr><tr><td><code dir="auto">GetReturnValue()</code></td><td>Read the ABI return register.</td></tr><tr><td><code dir="auto">AllocateStackBuffer(size)</code></td><td>Reserve stack space and return its address.</td></tr><tr><td><code dir="auto">PushToStack(value)</code> / <code dir="auto">PopFromStack()</code></td><td>Push or pop a word-sized value.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="symbbytebuffer">SymbByteBuffer</h2><a class="sl-anchor-link" href="#symbbytebuffer"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “SymbByteBuffer”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field or member</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">Name</code></td><td>Prefix used for byte variable names.</td></tr><tr><td><code dir="auto">Address</code></td><td>Concrete start address.</td></tr><tr><td><code dir="auto">Bytes</code></td><td>Symbolic bytes in address order.</td></tr><tr><td><code dir="auto">NullTerminated</code></td><td>True when a null byte was written after the symbolic bytes.</td></tr><tr><td><code dir="auto">Values</code></td><td>Same bytes, ready for query extraction.</td></tr></tbody></table>
+<p><code dir="auto">SymbByteBuffer</code> implements <code dir="auto">IQueryExpr</code>, so it can be passed through
+<code dir="auto">AddQueryBuffer</code> or combined with other query expressions.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="symbolic-expressions-and-query-values">Symbolic Expressions and Query Values</h2><a class="sl-anchor-link" href="#symbolic-expressions-and-query-values"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Symbolic Expressions and Query Values”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">SymbExpr</code></td><td>Symbolic bit-vector expression: <code dir="auto">Const</code>, <code dir="auto">Var</code>, <code dir="auto">UnOp</code>, <code dir="auto">BinOp</code>, <code dir="auto">RelOp</code>, <code dir="auto">Load</code>, <code dir="auto">Ite</code>, <code dir="auto">Cast</code>, <code dir="auto">Extract</code>, <code dir="auto">FuncApp</code>, or <code dir="auto">Undef</code>.</td></tr><tr><td><code dir="auto">SymbExpr.zero typ</code> / <code dir="auto">one typ</code></td><td>Concrete zero/one symbolic expressions.</td></tr><tr><td><code dir="auto">SymbExpr.trueExpr</code> / <code dir="auto">falseExpr</code></td><td>1-bit LowUIR condition constants.</td></tr><tr><td><code dir="auto">SymbExpr.relop op lhs rhs</code></td><td>Build a relational path-condition expression.</td></tr><tr><td><code dir="auto">IQueryExpr.QueryValues</code></td><td>Expressions requested from a solver model.</td></tr><tr><td><code dir="auto">QueryExpr.Empty</code></td><td>Request no model values.</td></tr><tr><td><code dir="auto">QueryExpr.Value expr</code></td><td>Request one symbolic expression value.</td></tr><tr><td><code dir="auto">QueryExpr.Values exprs</code></td><td>Combine multiple query expressions.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="solvers-and-models">Solvers and Models</h2><a class="sl-anchor-link" href="#solvers-and-models"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Solvers and Models”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">ISolver.CheckSat smt2</code></td><td>Run a satisfiability check over an SMT-LIB2 assertion script.</td></tr><tr><td><code dir="auto">ISolver.GetModels smt2</code></td><td>Return a raw solver model for an SMT-LIB2 assertion script.</td></tr><tr><td><code dir="auto">SolverStatus</code></td><td>Parsed solver status: <code dir="auto">Sat</code>, <code dir="auto">Unsat</code>, or <code dir="auto">Unknown</code>.</td></tr><tr><td><code dir="auto">SolverValue</code></td><td>One named <code dir="auto">BitVector</code> value returned by a solver.</td></tr><tr><td><code dir="auto">SymbModel.Values</code></td><td>Raw solver values.</td></tr><tr><td><code dir="auto">SymbModel.TryGetValue name</code> / <code dir="auto">GetValue name</code></td><td>Read a named model value.</td></tr><tr><td><code dir="auto">SymbModel.GetByte name</code> / <code dir="auto">GetByte expr</code></td><td>Read a model value as a byte.</td></tr><tr><td><code dir="auto">SymbModel.ReadBytes values</code> / <code dir="auto">ReadBytes buffer</code></td><td>Materialize symbolic bytes.</td></tr><tr><td><code dir="auto">SymbModel.ReadCString values</code> / <code dir="auto">ReadCString buffer</code></td><td>Materialize a null-terminated ASCII string.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="call-hooks">Call Hooks</h2><a class="sl-anchor-link" href="#call-hooks"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Call Hooks”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">SymbCallContext</code></td><td>Hook context: call site, target, return address, word type, endian, argument registers, and return register.</td></tr><tr><td><code dir="auto">SymbCallHook</code></td><td>Function type: <code dir="auto">SymbCallContext -> SymbState -> Result&#x3C;SymbState list, SymbEvalError></code>.</td></tr><tr><td><code dir="auto">SymbCallHookRegistry()</code></td><td>Empty hook registry.</td></tr><tr><td><code dir="auto">SymbCallHookRegistry(hooks)</code></td><td>Registry initialized from target-hook pairs.</td></tr><tr><td><code dir="auto">Register(target, hook)</code></td><td>Return a registry with one hook added.</td></tr><tr><td><code dir="auto">RegisterMany hooks</code></td><td>Return a registry with many hooks added.</td></tr><tr><td><code dir="auto">TryFind target</code></td><td>Look up a hook by concrete target address.</td></tr><tr><td><code dir="auto">SymbCallHooks.strlen</code></td><td>Built-in bounded symbolic model for <code dir="auto">strlen</code>.</td></tr><tr><td><code dir="auto">SymbCallHooks.strlenBounded maxScan</code></td><td>Same model with an explicit scan bound.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="example">Example</h2><a class="sl-anchor-link" href="#example"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Example”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="fsharp"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">executor</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> SymbExecutor hdl</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">state</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> executor.CreateState</span><span style="--0:#C792EA;--1:#8844AE">()</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">accessor</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> SymbStateAccessor</span><span style="--0:#C792EA;--1:#8844AE">(</span><span style="--0:#D6DEEB;--1:#403F53">hdl</span><span style="--0:#C792EA;--1:#8844AE">,</span><span style="--0:#D6DEEB;--1:#403F53"> state</span><span style="--0:#C792EA;--1:#8844AE">)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">accessor.InitializeDefaultStack</span><span style="--0:#C792EA;--1:#8844AE">()</span></div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">accessor.SetArgumentSymbolicString</span><span style="--0:#C792EA;--1:#8844AE">(</span><span style="--0:#F78C6C;--1:#AA0982">0</span><span style="--0:#C792EA;--1:#8844AE">,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">input</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C792EA;--1:#8844AE">,</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">16</span><span style="--0:#C792EA;--1:#8844AE">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">|></span><span style="--0:#D6DEEB;--1:#403F53"> ignore</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">options</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">SymbRunOptions.Default</span><span style="--0:#C792EA;--1:#8844AE">(</span><span style="--0:#D6DEEB;--1:#403F53">ReachAddress </span><span style="--0:#F78C6C;--1:#AA0982">0x401080</span><span style="--0:#D6DEEB;--1:#403F53">UL</span><span style="--0:#C792EA;--1:#8844AE">)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">.WithAvoidAddresses </span><span style="--0:#C792EA;--1:#8844AE">[</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">0x401050</span><span style="--0:#D6DEEB;--1:#403F53">UL </span><span style="--0:#C792EA;--1:#8844AE">]</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">match</span><span style="--0:#D6DEEB;--1:#403F53"> executor.Run</span><span style="--0:#C792EA;--1:#8844AE">(</span><span style="--0:#F78C6C;--1:#AA0982">0x401000</span><span style="--0:#D6DEEB;--1:#403F53">UL</span><span style="--0:#C792EA;--1:#8844AE">,</span><span style="--0:#D6DEEB;--1:#403F53"> state</span><span style="--0:#C792EA;--1:#8844AE">,</span><span style="--0:#D6DEEB;--1:#403F53"> options</span><span style="--0:#C792EA;--1:#8844AE">)</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">with</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">|</span><span style="--0:#D6DEEB;--1:#403F53"> Reachable answers </span><span style="--0:#C792EA;--1:#8844AE">-></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">answers</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#C792EA;--1:#8844AE">|></span><span style="--0:#D6DEEB;--1:#403F53"> List.iter </span><span style="--0:#C792EA;--1:#8844AE">(fun</span><span style="--0:#D7DBE0;--1:#403F53"> answer </span><span style="--0:#C792EA;--1:#8844AE">-></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">printfn </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">reachable at 0x</span><span style="--0:#C792EA;--1:#8844AE">%x</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> answer.Target</span><span style="--0:#C792EA;--1:#8844AE">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">|</span><span style="--0:#D6DEEB;--1:#403F53"> result </span><span style="--0:#C792EA;--1:#8844AE">-></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">printfn </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C792EA;--1:#8844AE">%A</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> result</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="let executor = SymbExecutor hdllet state = executor.CreateState()let accessor = SymbStateAccessor(hdl, state)accessor.InitializeDefaultStack()accessor.SetArgumentSymbolicString(0, &#x22;input&#x22;, 16) |> ignorelet options =  SymbRunOptions.Default(ReachAddress 0x401080UL)    .WithAvoidAddresses [ 0x401050UL ]match executor.Run(0x401000UL, state, options) with| Reachable answers ->  answers  |> List.iter (fun answer ->    printfn &#x22;reachable at 0x%x&#x22; answer.Target)| result ->  printfn &#x22;%A&#x22; result"><div></div></button></div></figure></div> </div> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">   </div> <div class="pagination-links print:hidden astro-u2l5gyhi" dir="ltr">   </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>

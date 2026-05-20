@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>B2R2: Practical Binary Reversing | B2R2 Tutorial</title><link rel="canonical" href="https://b2r2.org/tutorial-icst2026/"/><link rel="sitemap" href="/tutorial-icst2026/sitemap-index.xml"/><script>
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>BinaryBrew | B2R2 Tutorial</title><link rel="canonical" href="https://b2r2.org/tutorial-icst2026/api-reference/binarybrew/"/><link rel="sitemap" href="/tutorial-icst2026/sitemap-index.xml"/><script>
             (() => {
               let ticking = false;
               let tocObserver;
@@ -150,7 +150,7 @@
                 scheduleTocUpdate();
               });
             })();
-          </script><link rel="shortcut icon" href="/tutorial-icst2026/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.3.3"/><meta name="generator" content="Starlight v0.39.2"/><meta property="og:title" content="B2R2: Practical Binary Reversing"/><meta property="og:type" content="article"/><meta property="og:url" content="https://b2r2.org/tutorial-icst2026/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Practical binary reversing with B2R2"/><meta property="og:site_name" content="B2R2 Tutorial"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Practical binary reversing with B2R2"/><script>
+          </script><link rel="shortcut icon" href="/tutorial-icst2026/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v6.3.3"/><meta name="generator" content="Starlight v0.39.2"/><meta property="og:title" content="BinaryBrew"/><meta property="og:type" content="article"/><meta property="og:url" content="https://b2r2.org/tutorial-icst2026/api-reference/binarybrew/"/><meta property="og:locale" content="en"/><meta property="og:description" content="API reference for recovered functions, CFGs, and instruction collections."/><meta property="og:site_name" content="B2R2 Tutorial"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="API reference for recovered functions, CFGs, and instruction collections."/><script>
 	window.StarlightThemeProvider = (() => {
 		const storedTheme =
 			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
@@ -188,9 +188,9 @@
 		}
 		shortcut.style.display = '';
 	})();
-</script> <script type="module" src="/tutorial-icst2026/_astro/Search.astro_astro_type_script_index_0_lang.DRrH9zrU.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <nav class="section-switcher astro-3ef6ksr2" aria-label="Documentation sections"> <a href="/tutorial-icst2026/" class="section-switcher__link active astro-3ef6ksr2" aria-current="location">
+</script> <script type="module" src="/tutorial-icst2026/_astro/Search.astro_astro_type_script_index_0_lang.DRrH9zrU.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-3ef6ksr2"> <nav class="section-switcher astro-3ef6ksr2" aria-label="Documentation sections"> <a href="/tutorial-icst2026/" class="section-switcher__link astro-3ef6ksr2">
 Tutorial
-</a> <span class="section-switcher__separator astro-3ef6ksr2" aria-hidden="true">|</span> <a href="/tutorial-icst2026/api-reference/" class="section-switcher__link astro-3ef6ksr2">
+</a> <span class="section-switcher__separator astro-3ef6ksr2" aria-hidden="true">|</span> <a href="/tutorial-icst2026/api-reference/" class="section-switcher__link active astro-3ef6ksr2" aria-current="location">
 API Reference
 </a> </nav> <div class="sl-flex social-icons astro-3ef6ksr2"> <a href="https://github.com/B2R2-org/B2R2" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">B2R2 on GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Dark</option><option value="light" class="astro-4yphtoen">Light</option><option value="auto" selected class="astro-4yphtoen">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-theme-select>  <script>
 	StarlightThemeProvider.updatePickers();
@@ -217,7 +217,7 @@ API Reference
 				);
 			} catch {}
 		})();
-	</script>  <ul class="top-level astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/" aria-current="page" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Overview</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/setup/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Setup</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/cli-tools/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Basic CLI Tools</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-scripting/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Using B2R2 APIs</span>  </a> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Hands-on Problems</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/problems/findme/" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Problem 1: findme</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/problems/evalme/" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Problem 2: evalme</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/problems/loginme/" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Problem 3: loginme</span>  </a> </li> </ul> </details> </li> </ul>  <script aria-hidden="true">
+	</script>  <ul class="top-level astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Home</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/binhandle/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">BinHandle</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/binarybrew/" aria-current="page" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">BinaryBrew</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/concrete-execution/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Concrete Execution</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/tutorial-icst2026/api-reference/symbolic-execution/" class="large astro-3ii7xxms"> <span class="astro-3ii7xxms">Symbolic Execution</span>  </a> </li> </ul>  <script aria-hidden="true">
 		(() => {
 			const scroller = document.getElementById('starlight__sidebar');
 			if (!window._starlightScrollRestore || !scroller) return;
@@ -226,33 +226,111 @@ API Reference
 		})();
 	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-wu23bvmt"> <div class="social-icons astro-wu23bvmt"> <a href="https://github.com/B2R2-org/B2R2" rel="me" class="sl-flex astro-wy4te6ga"><span class="sr-only astro-wy4te6ga">B2R2 on GitHub</span><svg aria-hidden="true" class="astro-wy4te6ga astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Dark</option><option value="light" class="astro-4yphtoen">Light</option><option value="auto" selected class="astro-4yphtoen">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-theme-select>  <script>
 	StarlightThemeProvider.updatePickers();
-</script>   </div> </div> </div> </div> </nav> <div class="main-frame astro-vrdttmbt">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-67yu43on"> <aside class="right-sidebar-container print:hidden astro-67yu43on"> <div class="right-sidebar astro-67yu43on"> <div class="lg:sl-hidden astro-pb3aqygn"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-doynk5tl"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-doynk5tl"><details id="starlight__mobile-toc" class="astro-doynk5tl"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-doynk5tl"><span class="toggle sl-flex astro-doynk5tl">On this page<svg aria-hidden="true" class="caret astro-doynk5tl astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-doynk5tl"></span></summary><div class="dropdown astro-doynk5tl"><ul class="isMobile astro-gnoq344e" style="--depth: 0;"> <li class="astro-gnoq344e" style="--depth: 0;"> <a href="#_top" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#learning-flow" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Learning Flow</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#prerequisites" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Prerequisites</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#hands-on-problems" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Hands-on Problems</span> </a>  </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="/tutorial-icst2026/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-pb3aqygn"><div class="sl-container astro-pb3aqygn"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-gnoq344e" style="--depth: 0;"> <li class="astro-gnoq344e" style="--depth: 0;"> <a href="#_top" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#learning-flow" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Learning Flow</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#prerequisites" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Prerequisites</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#hands-on-problems" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Hands-on Problems</span> </a>  </li> </ul></nav></starlight-toc><script type="module" src="/tutorial-icst2026/_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-67yu43on">  <main data-pagefind-body class="astro-bguv2lll" lang="en" dir="ltr">    <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <h1 id="_top" class="astro-j6tvhyss">B2R2: Practical Binary Reversing</h1> </div> </div> <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="sl-markdown-content"> <p>B2R2 is a binary reversing framework for binary inspection, disassembly,
-control-flow recovery, and LowUIR lifting. It gives you both command-line tools
-for quick inspection and F# APIs for writing repeatable binary analysis scripts.</p>
-<p>This tutorial uses B2R2 from a local terminal. You will install the B2R2 CLI as a
-.NET global tool, inspect small binaries with command-line tools, call B2R2 APIs
-from F# <code dir="auto">.fsx</code> scripts, and solve hands-on reversing problems with downloaded
-tutorial files.</p>
-<div class="sl-heading-wrapper level-h2"><h2 id="learning-flow">Learning Flow</h2><a class="sl-anchor-link" href="#learning-flow"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Learning Flow”</span></a></div>
-<ol>
-<li>Install .NET SDK</li>
-<li>Install the B2R2 CLI tool</li>
-<li>Inspect binaries with B2R2 CLI</li>
-<li>Use B2R2 APIs from F# scripts</li>
-<li>Solve hands-on problems</li>
-</ol>
-<div class="sl-heading-wrapper level-h2"><h2 id="prerequisites">Prerequisites</h2><a class="sl-anchor-link" href="#prerequisites"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Prerequisites”</span></a></div>
-<ul>
-<li>A local terminal</li>
-<li>.NET SDK</li>
-<li>Tutorial files downloaded from this website</li>
-</ul>
-<p>Start with <a href="./setup/">Setup</a> if your machine does not already have .NET and the
-B2R2 CLI installed. Then try <a href="./cli-tools/">Basic CLI Tools</a> and read
-<a href="./api-scripting/">Using B2R2 APIs</a> before starting the hands-on problems.</p>
-<div class="sl-heading-wrapper level-h2"><h2 id="hands-on-problems">Hands-on Problems</h2><a class="sl-anchor-link" href="#hands-on-problems"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Hands-on Problems”</span></a></div>
-<ul>
-<li><a href="./problems/findme/">Problem 1: findme</a></li>
-<li><a href="./problems/evalme/">Problem 2: evalme</a></li>
-<li><a href="./problems/loginme/">Problem 3: loginme</a></li>
-</ul> </div> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">   </div> <div class="pagination-links print:hidden astro-u2l5gyhi" dir="ltr">  <a href="/tutorial-icst2026/setup/" rel="next" class="astro-u2l5gyhi"> <svg aria-hidden="true" class="astro-u2l5gyhi astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-u2l5gyhi"> Next <br class="astro-u2l5gyhi"> <span class="link-title astro-u2l5gyhi">Setup</span> </span> </a> </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>
+</script>   </div> </div> </div> </div> </nav> <div class="main-frame astro-vrdttmbt">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-67yu43on"> <aside class="right-sidebar-container print:hidden astro-67yu43on"> <div class="right-sidebar astro-67yu43on"> <div class="lg:sl-hidden astro-pb3aqygn"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-doynk5tl"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-doynk5tl"><details id="starlight__mobile-toc" class="astro-doynk5tl"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-doynk5tl"><span class="toggle sl-flex astro-doynk5tl">On this page<svg aria-hidden="true" class="caret astro-doynk5tl astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-doynk5tl"></span></summary><div class="dropdown astro-doynk5tl"><ul class="isMobile astro-gnoq344e" style="--depth: 0;"> <li class="astro-gnoq344e" style="--depth: 0;"> <a href="#_top" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#constructors" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Constructors</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#properties" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Properties</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#typical-usage" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Typical Usage</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#when-to-use-custom-strategies" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">When to Use Custom Strategies</span> </a>  </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="/tutorial-icst2026/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-pb3aqygn"><div class="sl-container astro-pb3aqygn"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-gnoq344e" style="--depth: 0;"> <li class="astro-gnoq344e" style="--depth: 0;"> <a href="#_top" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#constructors" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Constructors</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#properties" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Properties</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#typical-usage" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">Typical Usage</span> </a>  </li><li class="astro-gnoq344e" style="--depth: 0;"> <a href="#when-to-use-custom-strategies" class="astro-gnoq344e" style="--depth: 0;"> <span class="astro-gnoq344e" style="--depth: 0;">When to Use Custom Strategies</span> </a>  </li> </ul></nav></starlight-toc><script type="module" src="/tutorial-icst2026/_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-67yu43on">  <main data-pagefind-body class="astro-bguv2lll" lang="en" dir="ltr">    <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <h1 id="_top" class="astro-j6tvhyss">BinaryBrew</h1> </div> </div> <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="sl-markdown-content"> <p><code dir="auto">BinaryBrew</code> is a middle-end container for recovered binary information:
+instructions, functions, CFGs, exception information, and recovery builders.</p>
+<p>Source: <code dir="auto">B2R2/src/MiddleEnd/API/BinaryBrew.fs</code>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="constructors">Constructors</h2><a class="sl-anchor-link" href="#constructors"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Constructors”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Constructor</th><th>Use</th></tr></thead><tbody><tr><td><code dir="auto">BinaryBrew(hdl)</code></td><td>Default function identification and CFG recovery.</td></tr><tr><td><code dir="auto">BinaryBrew(hdl, allowBBLOverlap)</code></td><td>Default recovery with optional overlapping basic blocks.</td></tr><tr><td><code dir="auto">BinaryBrew(hdl, strategies)</code></td><td>Use explicit CFG-building strategies.</td></tr><tr><td><code dir="auto">BinaryBrew(hdl, exnInfo, strategies)</code></td><td>Use explicit exception info and strategies.</td></tr><tr><td><code dir="auto">BinaryBrew&#x3C;'FnCtx, 'GlCtx>(hdl, strategies, irBlkOptimizer)</code></td><td>Generic form with explicit strategies and a LowUIR block optimizer.</td></tr><tr><td><code dir="auto">BinaryBrew&#x3C;'FnCtx, 'GlCtx>(...)</code></td><td>Generic form for custom function/global recovery contexts.</td></tr><tr><td><code dir="auto">EVMBinaryBrew(hdl, strategies)</code></td><td>EVM-oriented variant using EVM function context.</td></tr></tbody></table>
+<p>The default <code dir="auto">BinaryBrew(hdl)</code> constructs <code dir="auto">ExceptionInfo</code>, runs
+<code dir="auto">FunctionIdentification</code>, then runs <code dir="auto">CFGRecovery</code>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="properties">Properties</h2><a class="sl-anchor-link" href="#properties"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Properties”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td><code dir="auto">BinHandle: BinHandle</code></td><td>Original binary handle.</td></tr><tr><td><code dir="auto">Functions</code></td><td>Recovered function collection.</td></tr><tr><td><code dir="auto">ExceptionInfo</code></td><td>Exception-handling metadata used during CFG recovery.</td></tr><tr><td><code dir="auto">Instructions</code></td><td>Linear-sweep instruction collection.</td></tr><tr><td><code dir="auto">Builders</code></td><td>CFG builder table used internally by recovery strategies.</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h2"><h2 id="typical-usage">Typical Usage</h2><a class="sl-anchor-link" href="#typical-usage"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Typical Usage”</span></a></div>
+<div class="expressive-code"><link rel="stylesheet" href="/tutorial-icst2026/_astro/ec.v4551.css"><script type="module" src="/tutorial-icst2026/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="fsharp"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">hdl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> BinHandle</span><span style="--0:#C792EA;--1:#8844AE">(</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">bin/findme</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#C792EA;--1:#8844AE">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">let</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">brew</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#D6DEEB;--1:#403F53"> BinaryBrew hdl</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#D6DEEB;--1:#403F53">brew.Functions.Sequence</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">|></span><span style="--0:#D6DEEB;--1:#403F53"> Seq.sortBy </span><span style="--0:#C792EA;--1:#8844AE">(fun</span><span style="--0:#D7DBE0;--1:#403F53"> fn </span><span style="--0:#C792EA;--1:#8844AE">-></span><span style="--0:#D6DEEB;--1:#403F53"> fn.EntryPoint</span><span style="--0:#C792EA;--1:#8844AE">)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">|></span><span style="--0:#D6DEEB;--1:#403F53"> Seq.iter </span><span style="--0:#C792EA;--1:#8844AE">(fun</span><span style="--0:#D7DBE0;--1:#403F53"> fn </span><span style="--0:#C792EA;--1:#8844AE">-></span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">  </span></span><span style="--0:#D6DEEB;--1:#403F53">printfn </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">0x</span><span style="--0:#C792EA;--1:#8844AE">%016x</span><span style="--0:#ECC48D;--1:#984E4D"> blocks=</span><span style="--0:#C792EA;--1:#8844AE">%d</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> fn.EntryPoint fn.CFG.Size</span><span style="--0:#C792EA;--1:#8844AE">)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="let hdl = BinHandle(&#x22;bin/findme&#x22;)let brew = BinaryBrew hdlbrew.Functions.Sequence|> Seq.sortBy (fun fn -> fn.EntryPoint)|> Seq.iter (fun fn ->  printfn &#x22;0x%016x blocks=%d&#x22; fn.EntryPoint fn.CFG.Size)"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="when-to-use-custom-strategies">When to Use Custom Strategies</h2><a class="sl-anchor-link" href="#when-to-use-custom-strategies"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “When to Use Custom Strategies”</span></a></div>
+<p>Use the default constructor first. Reach for explicit strategies when you need
+to change recovery behavior, disable a default pass, run EVM-specific recovery,
+or provide a custom function context.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Need</th><th>API</th></tr></thead><tbody><tr><td>Default native recovery</td><td><code dir="auto">BinaryBrew(hdl)</code></td></tr><tr><td>Permit overlapping basic blocks</td><td><code dir="auto">BinaryBrew(hdl, allowBBLOverlap = true)</code></td></tr><tr><td>Custom CFG strategy sequence</td><td><code dir="auto">BinaryBrew(hdl, strategies)</code></td></tr><tr><td>EVM recovery context</td><td><code dir="auto">EVMBinaryBrew(hdl, strategies)</code></td></tr></tbody></table> </div> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">   </div> <div class="pagination-links print:hidden astro-u2l5gyhi" dir="ltr">   </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>
